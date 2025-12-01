@@ -504,6 +504,64 @@
           .join("");
       }
     }
-  </script>
+  <script>
+  const postsGrid = document.getElementById("posts-grid");
+  const yearSpan = document.getElementById("year");
+  const articleTitle = document.getElementById("article-title");
+  const articleDate = document.getElementById("article-date");
+  const articleTag = document.getElementById("article-tag");
+  const articleContent = document.getElementById("article-content");
+
+  if (yearSpan) {
+    yearSpan.textContent = new Date().getFullYear();
+  }
+
+  async function loadPosts() {
+    try {
+      const response = await fetch("posts.json");
+      const posts = await response.json();
+
+      if (postsGrid) {
+        postsGrid.innerHTML = posts
+          .map(
+            (post, index) => `
+              <article class="post-card">
+                <div class="post-meta">
+                  <span>${post.date}</span>
+                  <span>·</span>
+                  <span class="post-tag">${post.tag}</span>
+                </div>
+                <h3 class="post-title">
+                  <button onclick="openArticle(${index})">${post.title}</button>
+                </h3>
+                <p class="post-excerpt">${post.excerpt}</p>
+                <div class="post-readmore" onclick="openArticle(${index})">
+                  Read article <span>→</span>
+                </div>
+              </article>
+            `
+          )
+          .join("");
+      }
+
+      window.postsData = posts;
+    } catch (err) {
+      console.error("Error loading posts.json", err);
+      postsGrid.innerHTML = "<p style='color:#9ca3af'>Failed to load articles.</p>";
+    }
+  }
+
+  function openArticle(index) {
+    const post = window.postsData[index];
+    articleTitle.textContent = post.title;
+    articleDate.textContent = post.date;
+    articleTag.textContent = post.tag;
+    articleContent.innerHTML = post.content;
+
+    document.getElementById("article-viewer").scrollIntoView({ behavior: "smooth" });
+  }
+
+  loadPosts();
+</script>
 </body>
   </html>
