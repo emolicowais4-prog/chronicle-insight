@@ -110,7 +110,30 @@
 
     /* Hero */
 
-    .hero {
+    /* Hero Banner with Background Image */
+.hero {
+  text-align: center;
+  padding: 90px 20px;
+  background: url("https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat;
+  border-radius: 12px;
+  margin-bottom: 40px;
+  color: #ffffff;
+  position: relative;
+}
+
+/* Dark overlay */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 12px;
+}
+
+.hero h1, .hero-subtitle {
+  position: relative;
+  z-index: 1;
+}
       padding: 40px 0 10px;
     }
 
